@@ -5,6 +5,8 @@ export default defineNuxtConfig({
   css: ['@alvarosabu/ui/styles'],
 
   modules: [
+    '@unocss/nuxt',
+    '@tresjs/nuxt',
     [
       '@storyblok/nuxt',
       {
