@@ -10,7 +10,7 @@ const lastName = ref('Sabu')
 </script>
 
 <template>
-  <nuxt-link
+  <NuxtLink
     to="/"
     inline-flex
     items-center
@@ -21,13 +21,13 @@ const lastName = ref('Sabu')
     dark:text-gray-50
   >
     <img
-      src="/avatar.webp"
+      src="/avatar.png"
       width="32"
       height="32"
       alt="Alvaro Saburido avatar"
       w-8
       h-8
-      border="4 gray-300"
+      border="2 gray-300"
       mr-4
       inline-flex
       bg-secondary-400
@@ -52,5 +52,5 @@ const lastName = ref('Sabu')
       sm:inline-block
     >{{ '/>' }}</span>
     <span hidden> Go to home page</span>
-  </nuxt-link>
+  </NuxtLink>
 </template>

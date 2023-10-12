@@ -2,7 +2,7 @@ import SvgLoader from 'vite-svg-loader'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  css: ['@alvarosabu/ui/styles'],
+  css: ['@alvarosabu/ui/styles', '@tresjs/leches/styles'],
 
   modules: [
     '@unocss/nuxt',
@@ -19,5 +19,8 @@ export default defineNuxtConfig({
   vite: {
     plugins: [SvgLoader()],
     optimizeDeps: { exclude: ['fsevents'] },
+    resolve: {
+      dedupe: ['three'],
+    },
   },
 })

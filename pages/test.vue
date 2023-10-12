@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace } from 'three'
-import '@tresjs/leches/styles'
 
 const gl = reactive({
   alpha: true,
@@ -8,11 +7,13 @@ const gl = reactive({
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
 })
+
+useControls('fpsgraph')
 </script>
 
 <template>
+  <TresLeches class="important-fixed important-z-44 important-top-12" />
   <main class="mx-auto container h-90vh relative">
-    <TresLeches />
     <TresCanvas v-bind="gl">
       <TresPerspectiveCamera
         :position="[5, 5, 5]"
@@ -20,7 +21,7 @@ const gl = reactive({
 
       <OrbitControls />
       <Suspense>
-        <ShevasReactive />
+        <ShevasCharacter />
       </Suspense>
       <TresAmbientLight :intensity="2" />
       <TresDirectionalLight

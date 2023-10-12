@@ -1,77 +1,71 @@
 <script setup lang="ts">
-import { MeshToonMaterial, DoubleSide } from 'three'
+import { DoubleSide, MeshPhongMaterial } from 'three'
 
-const { scene, nodes, animations } = await useGLTF('/models/shevas.glb')
+const props = defineProps<{
+  progress: number
+  greeting: boolean
+}>()
+
+const { scene, nodes, animations } = await useReactiveGLTF('/models/shevas_v2.glb')
+
+const { progress, greeting } = toRefs(props)
+
 const { seekByName } = useSeek()
 
-const character = nodes['rig']
+const character = computed(() => nodes.value['rig'])
 
-character.traverse((child) => {
-  if (child.name === '01ShevasEyesClosed' || child.name === '02ShevasEyesClosedLeft') {
-    child.visible = false
+const { changeEyes, changeAction, greet } = useCharacterCtrl(character, animations)
+
+const unwatchGretting = watch(greeting, (value) => {
+  if (value) {
+    greet()
+
+    unwatchGretting()
   }
 })
 
-const eyeSelectorBone = seekByName(character, 'eyeselector')
-console.log({
-  nodes,
-  character,
-  animations,
-  eyeSelectorBone: eyeSelectorBone?.position,
-})
+// Materials
+const body = seekByName(character.value, 'ShevasBody') as TresObject
+const tongue = seekByName(character.value, 'CubeBody002') as TresObject
+const head = seekByName(character.value, 'CubeBody002_1') as TresObject
+const hair = seekByName(character.value, 'ShevasHair') as TresObject
+const hairBack = seekByName(character.value, 'CubeBody002_2') as TresObject
+const teeth = seekByName(character.value, 'CubeBody002_3') as TresObject
 
-// Animations 
-
-const { actions, mixer } = useAnimations(animations, character)
-
-const currentAction = actions['shevas_iddle']
-
-currentAction.play()
-
-const body = seekByName(character, 'CubeBody002_1')
-const insideMouth = seekByName(character, 'CubeBody002_2')
-const hair = seekByName(character, 'CubeBody002_3')
-const teeth = seekByName(character, 'CubeBody002_4')
-const tongue = seekByName(character, 'CubeBody002')
-
-body.material = new MeshToonMaterial({
+const skinMaterial = new MeshPhongMaterial({
   color: '#C2A498',
 })
 
-hair.material = new MeshToonMaterial({
-  /* color: '#462A1D', */
-  color: '#7F6758',
-})
+head.material = skinMaterial
 
-insideMouth.material = new MeshToonMaterial({
-  color: '#383434',
-})
+body.material = skinMaterial
 
-teeth.material = new MeshToonMaterial({
-  color: '#F2F2F2',
-})
-
-tongue.material = new MeshToonMaterial({
+tongue.material = new MeshPhongMaterial({
   color: '#C23431',
 })
 
-// Clothes
-
-const shirt = seekByName(character, 'ShevasCShirt')
-const shorts = seekByName(character, 'ShevasCShorts')
-
-shirt.material = new MeshToonMaterial({
-  color: '#2B4052',
-  side: DoubleSide,
+const hairMaterial = new MeshPhongMaterial({
+  color: '#7F6758',
 })
 
-shorts.material = new MeshToonMaterial({
+hair.material = hairMaterial
+hairBack.material = hairMaterial
+teeth.material = new MeshPhongMaterial({
+  color: '#F2F2F2',
+})
+
+// Clothes
+const shirt = seekByName(character.value, 'ShevasCShirt') as TresObject
+const shorts = seekByName(character.value, 'ShevasCShorts') as TresObject
+
+shirt?.scale.set(1.5, 1.5, 1.5)
+
+shorts.material = new MeshPhongMaterial({
   color: '#978F6C',
   side: DoubleSide,
 })
 </script>
 
 <template>
-  <!--   <primitive :object="nodes['00ShevasEyesOpen']" /> -->
-  <primitive :object="character" />
+  <primitive :object="toRaw(character)" />
 </template>
