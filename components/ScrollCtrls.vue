@@ -44,24 +44,32 @@ export interface ScrollControlsProps {
    * @memberof ScrollControlsProps
    */
   htmlScroll?: boolean
+  /**
+   * Callback function to use instead of the default camera movement.
+   *
+   * @type {Function}
+   * @memberof ScrollControlsProps
+   */
   cb?: (progress: number) => void
+  /**
+   * Whether to snap the camera to the scroll.
+   *
+   * @type {Boolean}
+   * @default false
+   * @memberof ScrollControlsProps
+   */
+  snap?: boolean
 }
 
 const props = withDefaults(
-  defineProps<{
-    pages?: number
-    distance?: number
-    smoothScroll?: number
-    horizontal?: boolean
-    htmlScroll?: boolean
-    cb?: (progress: number) => void
-  }>(),
+  defineProps<ScrollControlsProps>(),
   {
     pages: 4,
     distance: 4,
     smoothScroll: 0.1,
     horizontal: false,
     htmlScroll: false,
+    snap: false,
   },
 )
 
@@ -140,7 +148,7 @@ watch(
       if (canvas?.style.width && canvas?.style.position && canvas?.style.top && canvas?.style.left) {
         canvas.style.width = '100%'
         canvas.style.position = 'fixed'
-        canvas.style.zIndex = ' -99999'
+        canvas.style.zIndex = '1'
         canvas.style.top = '0'
         canvas.style.left = '0'
       }
@@ -197,14 +205,15 @@ onLoop(() => {
     if (wrapperRef.value.children.length > 0) {
       wrapperRef.value.position[direction] += delta
     }
-  } else if (props.cb !== undefined) {
+  }
+  else if (props.cb !== undefined) {
+    /*    const delta */
+    /*      = (progress.value * props.distance) * props.smoothScroll */
     const delta
-      = (progress.value * props.distance) * props.smoothScroll
-   /*  const delta
       = (progress.value * props.distance) * props.smoothScroll
     if (wrapperRef.value.children.length > 0) {
       wrapperRef.value.position[direction] += delta
-    } */
+    }
     props.cb(delta)
   }
 })

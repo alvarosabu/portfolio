@@ -4,7 +4,7 @@
   <div>
     <TheHeader />
 
-    <div class="page mt-48px">
+    <div class="page  bg-white dark:bg-primary">
       <slot />
     </div>
   </div>

@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { MeshPhongMaterial, DoubleSide, Vector3, Quaternion } from 'three'
 
-const { scene, nodes, animations } = await useReactiveGLTF('/models/Shevas_v2.glb', { draco: true })
+const { scene, nodes, animations } = await useReactiveGLTF('/models/shevas-v3.glb', { draco: true })
 
 const { seekByName } = useSeek()
 
 const character = computed(() => nodes.value['rig'])
 
-const { changeEyes, changeAction } = useCharacterCtrl(character, animations)
+const { changeEyes, changeAction, actions } = useCharacterCtrl(character, animations, {
+  allowMovement: true,
+})
 
 const { value: eye } = useControls({
   controls: {
@@ -28,20 +30,7 @@ watch(eye, (value: string) => {
 const { value: action } = useControls({
   actions: {
     label: 'Actions',
-    options: [
-      {
-        text: 'Iddle',
-        value: 'shevas_iddle',
-      },
-      {
-        text: 'Walk',
-        value: 'shevas_walk',
-      },
-      {
-        text: 'Greetings',
-        value: 'shevas_greeting',
-      },
-    ],
+    options: Object.keys(actions),
     value: 'shevas_iddle',
   },
 })
@@ -102,19 +91,9 @@ teeth.material = new MeshPhongMaterial({
 
 // Clothes
 
-const shirt = seekByName(character.value, 'ShevasCShirt')
-const shorts = seekByName(character.value, 'ShevasCShorts')
+const { setOutfit } = useClothes(character)
 
-shirt?.scale.set(1.5, 1.5, 1.5)
-/* shirt.material = new MeshPhongMaterial({
-  color: '#2B4052',
-  side: DoubleSide,
-}) */
-
-shorts.material = new MeshPhongMaterial({
-  color: '#978F6C',
-  side: DoubleSide,
-})
+setOutfit('casual')
 </script>
 
 <template>

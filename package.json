@@ -13,22 +13,26 @@
   },
   "dependencies": {
     "@alvarosabu/ui": "3.0.0-alpha.8",
+    "@pinia/nuxt": "^0.5.1",
     "@storyblok/js": "^2.3.0",
-    "@storyblok/nuxt": "^5.7.3",
-    "@tresjs/cientos": "^3.5.0",
-    "@tresjs/leches": "^0.10.0",
-    "@tresjs/nuxt": "^1.1.9",
+    "@storyblok/nuxt": "^5.7.4",
+    "@tresjs/cientos": "^3.5.1",
+    "@tresjs/leches": "^0.12.0",
+    "@tresjs/nuxt": "^1.2.2",
     "@tresjs/post-processing": "^0.4.0",
-    "@types/three": "^0.157.0",
+    "@types/three": "^0.157.2",
     "@unocss/nuxt": "^0.55.3",
     "gsap": "^3.12.2",
+    "pinia": "^2.1.7",
     "three": "^0.157.0"
   },
   "devDependencies": {
     "@alvarosabu/eslint-config-vue": "^0.4.0",
-    "@nuxt/devtools": "1.0.0-beta.0",
-    "@types/node": "^20.8.4",
-    "nuxt": "^3.7.4",
+    "@iconify-json/logos": "^1.1.37",
+    "@nuxt/devtools": "1.0.0",
+    "@types/node": "^20.8.8",
+    "nuxt": "^3.8.0",
+    "nuxt-icon": "^0.5.0",
     "vite-svg-loader": "^4.0.0"
   }
 }

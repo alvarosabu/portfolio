@@ -1,26 +1,68 @@
 <script setup lang="ts">
 import { DoubleSide, MeshPhongMaterial } from 'three'
+import gsap from 'gsap'
+import { useScrollLock } from '@vueuse/core'
 
-const props = defineProps<{
-  progress: number
-  greeting: boolean
-}>()
+const { scene, nodes, animations } = await useReactiveGLTF('/models/Shevas-v3.glb', { draco: true })
 
-const { scene, nodes, animations } = await useReactiveGLTF('/models/shevas_v2.glb')
-
-const { progress, greeting } = toRefs(props)
-
+const store = useHomeStore()
+const { scrollProgress, cameraInitialAnimationEnd } = storeToRefs(store)
 const { seekByName } = useSeek()
 
 const character = computed(() => nodes.value['rig'])
-
+const characterRef = ref()
 const { changeEyes, changeAction, greet } = useCharacterCtrl(character, animations)
 
-const unwatchGretting = watch(greeting, (value) => {
+const unwatchGretting = watch(cameraInitialAnimationEnd, (value) => {
   if (value) {
     greet()
 
     unwatchGretting()
+  }
+})
+/* const isLocked = useScrollLock(window)
+isLocked.value = true */
+
+watch(scrollProgress, (value) => {
+  if (value < 0.15) {
+    /* if (characterRef.value.scale.x === 0) { */
+    characterRef.value.visible = true
+    gsap.to(characterRef.value.scale, {
+      duration: 1, // Duration of the animation in seconds
+      x: 1,
+      y: 1,
+      z: 1,
+      ease: 'elastic', // Easing function for smoother animation
+    })
+    setOutfit('casual')
+    changeAction('shevas_greeting')
+    /*  } */
+    
+  }
+  if (value >= 0.15 && value < 0.5) {
+    gsap.to(characterRef.value.scale, {
+      duration: 1, // Duration of the animation in seconds
+      x: 0,
+      y: 0,
+      z: 0,
+      ease: 'elastic', // Easing function for smoother animation
+    })
+    /* characterRef.value.position.y = -80 */
+  }
+  if (value >= 0.480) {
+    /*  if (characterRef.value.scale.x === 0) { */
+    characterRef.value.visible = true
+    gsap.to(characterRef.value.scale, {
+      duration: 1, // Duration of the animation in seconds
+      x: 1,
+      y: 1,
+      z: 1,
+      ease: 'elastic', // Easing function for smoother animation
+    })
+    setOutfit('slytherin')
+    changeAction('shevas_spellcast')
+    /*  } */
+
   }
 })
 
@@ -55,17 +97,17 @@ teeth.material = new MeshPhongMaterial({
 })
 
 // Clothes
-const shirt = seekByName(character.value, 'ShevasCShirt') as TresObject
-const shorts = seekByName(character.value, 'ShevasCShorts') as TresObject
+// Clothes
 
-shirt?.scale.set(1.5, 1.5, 1.5)
+const { setOutfit } = useClothes(character)
 
-shorts.material = new MeshPhongMaterial({
-  color: '#978F6C',
-  side: DoubleSide,
-})
+setOutfit('casual')
 </script>
 
 <template>
-  <primitive :object="toRaw(character)" />
+  <TresGroup
+    ref="characterRef"
+  >
+    <primitive :object="toRaw(character)" />
+  </TresGroup>
 </template>

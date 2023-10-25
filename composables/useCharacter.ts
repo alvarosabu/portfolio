@@ -1,9 +1,16 @@
 import { Quaternion, Vector3 } from 'three'
 import { onKeyDown, onKeyUp, watchDebounced } from '@vueuse/core'
 
-export function useCharacterCtrl(character, animations) {
+export interface CharacterCtrlOptions {
+  allowMovement?: boolean
+  acceleration?: Vector3
+  decceleration?: Vector3
+}
+export function useCharacterCtrl(character, animations, options: CharacterCtrlOptions = {
+  allowMovement: false,
+}) {
   const eye = ref('open')
-  const action = ref('shevas_iddle')
+  const action = ref('shevas_iddle_action')
 
   const { seekByName } = useSeek()
 
@@ -44,7 +51,7 @@ export function useCharacterCtrl(character, animations) {
 
   const { actions, mixer } = useAnimations(animations.value, character)
 
-  const currentAction = ref(actions['shevas_iddle'])
+  const currentAction = ref(actions['shevas_iddle_action'])
 
   function changeAction(value: string) {
     if (!actions[value]) {
@@ -92,52 +99,53 @@ export function useCharacterCtrl(character, animations) {
     }
     else {
       currentAction.value.fadeOut(0.2)
-      currentAction.value = actions['shevas_iddle']
+      currentAction.value = actions['shevas_iddle_action']
       currentAction.value.reset()
       currentAction.value.fadeIn(0.2)
       currentAction.value.play()
     }
   })
-
-  onKeyDown(['w', 'W', 'ArrowUp'], (e) => {
-    e.preventDefault()
-    isMoving.value = true
-    direction.value = 'UP'
-  })
-
-  onKeyDown(['s', 'S', 'ArrowDown'], (e) => {
-    e.preventDefault()
-    isMoving.value = true
-    direction.value = 'DOWN'
-  })
-
-  onKeyDown(['a', 'A', 'ArrowLeft'], (e) => {
-    e.preventDefault()
-    isMoving.value = true
-    direction.value = 'LEFT'
-  })
-
-  onKeyDown(['d', 'D', 'ArrowRight'], (e) => {
-    e.preventDefault()
-    isMoving.value = true
-    direction.value = 'RIGHT'
-  })
-
-  onKeyUp(['w', 'W', 'ArrowUp'], () => {
-    isMoving.value = false
-  })
-
-  onKeyUp(['s', 'S', 'ArrowDown'], () => {
-    isMoving.value = false
-  })
-
-  onKeyUp(['a', 'A', 'ArrowLeft'], () => {
-    isMoving.value = false
-  })
-
-  onKeyUp(['d', 'D', 'ArrowRight'], () => {
-    isMoving.value = false
-  })
+  if (options.allowMovement) {
+    onKeyDown(['w', 'W', 'ArrowUp'], (e) => {
+      e.preventDefault()
+      isMoving.value = true
+      direction.value = 'UP'
+    })
+  
+    onKeyDown(['s', 'S', 'ArrowDown'], (e) => {
+      e.preventDefault()
+      isMoving.value = true
+      direction.value = 'DOWN'
+    })
+  
+    onKeyDown(['a', 'A', 'ArrowLeft'], (e) => {
+      e.preventDefault()
+      isMoving.value = true
+      direction.value = 'LEFT'
+    })
+  
+    onKeyDown(['d', 'D', 'ArrowRight'], (e) => {
+      e.preventDefault()
+      isMoving.value = true
+      direction.value = 'RIGHT'
+    })
+  
+    onKeyUp(['w', 'W', 'ArrowUp'], () => {
+      isMoving.value = false
+    })
+  
+    onKeyUp(['s', 'S', 'ArrowDown'], () => {
+      isMoving.value = false
+    })
+  
+    onKeyUp(['a', 'A', 'ArrowLeft'], () => {
+      isMoving.value = false
+    })
+  
+    onKeyUp(['d', 'D', 'ArrowRight'], () => {
+      isMoving.value = false
+    })
+  }
 
   const { onLoop } = useRenderLoop()
 
@@ -204,6 +212,7 @@ export function useCharacterCtrl(character, animations) {
   })
 
   return {
+    actions,
     wink,
     openEyes,
     closeEyes,
