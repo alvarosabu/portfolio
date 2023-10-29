@@ -6,8 +6,6 @@ import { storeToRefs } from 'pinia'
 
 import { useHomeStore } from '~/stores/home'
 
-const breakpoints = useBreakpoints(breakpointsTailwind)
-
 const gl = {
   shadows: true,
   alpha: true,
@@ -40,24 +38,26 @@ console.log('story', render(story.value.content.body[0].content.content)) */
 useControls('fpsgraph')
 
 const scRef = ref()
-
+const sectionsRef = ref()
 const store = useHomeStore()
-const { scrollProgress, cameraInitialAnimationEnd } = storeToRefs(store)
+const { 
+  scrollProgress,
+  cameraInitialAnimationEnd,
+  hasFinishLoadingModels,
+  sectionsNo,
+  currentSection, 
+} = storeToRefs(store)
 
-// Camera position
-const cameraRef = ref()
-const cameraPosition = reactive(new Vector3(40, 0, 80))
-const cameraPositionEnd = breakpoints.greaterOrEqual('md').value 
-  ? reactive( new Vector3(2, 0, 10)) : reactive(new Vector3(2, 4, 20))
-
-watch(cameraRef, () => {
-  if (cameraRef.value) {
-    useControls('Camera', {
-      position: cameraRef.value.position,
+watch(sectionsRef, (value) => {
+  if (value) {
+    sectionsNo.value = value.querySelectorAll('section').length
+    useControls('Scroll', {
+      scroll: scrollProgress,
+      currentSection,
     })
   }
-})
 
+})
 watch(scrollProgress, (value) => {
   if (value < 0.1) {
     gsap.to(planetRef.value.scale, {
@@ -66,14 +66,6 @@ watch(scrollProgress, (value) => {
       y: 1,
       z: 1,
       ease: 'elastic.out', // Easing function for smoother animation
-    })
-    gsap.to(cameraRef.value.position, {
-      duration: 1.2, // Duration of the animation in seconds
-      ...cameraPositionEnd,
-      ease: 'power3.out', // Easing function for smoother animation
-      onUpdate: () => {
-        cameraRef.value.lookAt(2, 0, 0)
-      },
     })
   }
   if (value >= 0.1) {
@@ -84,15 +76,7 @@ watch(scrollProgress, (value) => {
       z: 0,
       ease: 'power4.out', // Easing function for smoother animation
     })
-    gsap.to(cameraRef.value.position, {
-      duration: 1.2, // Duration of the animation in seconds
-      y: cameraPositionEnd.y + 3,
-      z: cameraPositionEnd.z + 3,
-      ease: 'power3.out', // Easing function for smoother animation
-      onUpdate: () => {
-        cameraRef.value.lookAt(3, 3, 0)
-      },
-    })
+
   }
 })
 
@@ -102,27 +86,16 @@ const planetRef = ref()
 
 watch(hasFinishLoading, (value) => {
   if (value) {
-    setTimeout(() => {
-      
-      gsap.to(planetRef.value.scale, {
-        duration: 1, // Duration of the animation in seconds
-        x: 1,
-        y: 1,
-        z: 1,
-        ease: 'elastic', // Easing function for smoother animation
-      })
-      gsap.to(cameraRef.value.position, {
-        duration: 1.2, // Duration of the animation in seconds
-        ...cameraPositionEnd,
-        ease: 'power3.out', // Easing function for smoother animation
-        onUpdate: () => {
-          cameraRef.value.lookAt(2, 0, 0)
-        },
-        onComplete: () => {
-          cameraInitialAnimationEnd.value = true
-        },
-      })
-    }, 1000)
+    hasFinishLoadingModels.value = true
+
+    gsap.to(planetRef.value.scale, {
+      duration: 1, // Duration of the animation in seconds
+      delay: 1,
+      x: 1,
+      y: 1,
+      z: 1,
+      ease: 'elastic', // Easing function for smoother animation
+    })
   }
 })
 
@@ -145,11 +118,11 @@ watch(scrollProgress, (value) => {
     :progress="progress"
     :has-finish-loading="hasFinishLoading"
   />
+  <TresLeches class="important-fixed important-z-100" />
   <main
+    ref="sectionsRef"
     class="relative text-primary dark:text-light"
   >
-    <TresLeches class="important-fixed important-z-100" />
- 
     <section class="min-h-screen snap-start flex justify-end items-start md:items-center pt-16">
       <div class="text-right mr-10%">
         <Transition
@@ -224,10 +197,7 @@ watch(scrollProgress, (value) => {
     window-size
     class="fixed top-0 left-0"
   >
-    <TresPerspectiveCamera
-      ref="cameraRef"
-      :position="cameraPosition"
-    />
+    <CameraCtrl />
     <ScrollCtrls
       ref="scRef"
       v-model="scrollProgress"
@@ -238,7 +208,6 @@ watch(scrollProgress, (value) => {
     >
       <TresGroup
         ref="planetRef"
-        :scale="[0, 0, 0]"
       >
         <Suspense>
           <ThePlanet />
