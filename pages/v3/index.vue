@@ -58,58 +58,12 @@ watch(sectionsRef, (value) => {
   }
 
 })
-watch(scrollProgress, (value) => {
-  if (value < 0.1) {
-    gsap.to(planetRef.value.scale, {
-      duration: 1, // Duration of the animation in seconds
-      x: 1,
-      y: 1,
-      z: 1,
-      ease: 'elastic.out', // Easing function for smoother animation
-    })
-  }
-  if (value >= 0.1) {
-    gsap.to(planetRef.value.scale, {
-      duration: 0.2, // Duration of the animation in seconds
-      x: 0,
-      y: 0,
-      z: 0,
-      ease: 'power4.out', // Easing function for smoother animation
-    })
 
-  }
-})
-
-// PlanetRef
-
-const planetRef = ref()
-
+// Let the state know that the models are loaded
 watch(hasFinishLoading, (value) => {
   if (value) {
     hasFinishLoadingModels.value = true
-
-    gsap.to(planetRef.value.scale, {
-      duration: 1, // Duration of the animation in seconds
-      delay: 1,
-      x: 1,
-      y: 1,
-      z: 1,
-      ease: 'elastic', // Easing function for smoother animation
-    })
   }
-})
-
-watch(scrollProgress, (value) => {
-  /* if (value >= 0.5) {
-    gsap.to(cameraRef.value.position, {
-      duration: 1.2, // Duration of the animation in seconds
-      y: cameraRef.value.position.y - 0.5,
-      ease: 'power3.out', // Easing function for smoother animation
-      onUpdate: () => {
-        cameraRef.value.lookAt(0, cameraRef.value.position.y - 0.5, 0)
-      },
-    })
-  } */
 })
 </script>
 
@@ -206,13 +160,7 @@ watch(scrollProgress, (value) => {
       html-scroll
       :cb="() => {}"
     >
-      <TresGroup
-        ref="planetRef"
-      >
-        <Suspense>
-          <ThePlanet />
-        </Suspense>
-      </TresGroup>
+      <PlanetSection />
       <TresGroup
         ref="potionsRef"
       >
