@@ -23,6 +23,14 @@ export default defineNuxtConfig({
     ],
     '@pinia/nuxt',
   ],
+  imports: {
+    presets: [
+      {
+        from: 'gsap',
+        imports: ['gsap'],
+      },
+    ],
+  },
   devtools: { enabled: true },
   vite: {
     plugins: [SvgLoader()],

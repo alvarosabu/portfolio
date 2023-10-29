@@ -40,7 +40,7 @@ watch(route, () => {
       fixed
       top-0
       z-60
-      bg="white dark:primary-500 opacity-60"
+      bg="white dark:primary opacity-60 dark:opacity-60"
       text="dark:gray-200"
       role="banner"
     >

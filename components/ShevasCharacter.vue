@@ -6,6 +6,14 @@ const { scene, nodes, animations } = await useReactiveGLTF('/models/shevas-v3.gl
 const { seekByName } = useSeek()
 
 const character = computed(() => nodes.value['rig'])
+character.value.scale.set(0, 0, 0)
+gsap.to(character.value.scale, {
+  duration: 1, // Duration of the animation in seconds
+  x: 1,
+  y: 1,
+  z: 1,
+  ease: 'elastic.out', // Easing function for smoother animation
+})
 
 const { changeEyes, changeAction, actions } = useCharacterCtrl(character, animations, {
   allowMovement: true,

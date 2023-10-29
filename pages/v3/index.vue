@@ -17,6 +17,17 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
+definePageMeta({
+  scrollToTop: true,
+})
+
+const bloomParams = reactive({
+  luminanceThreshold: 0.2,
+  luminanceSmoothing: 0.3,
+  mipmapBlur: true,
+  intensity: 0.5,
+}) 
+
 const story = await useAsyncStoryblok(
   'v3',
   { version: 'draft' },
@@ -48,25 +59,39 @@ watch(cameraRef, () => {
 })
 
 watch(scrollProgress, (value) => {
-  if (value < 0.2) {
-    if (planetRef.value.scale.x === 0) {
-      planetRef.value.visible = true
-      gsap.to(planetRef.value.scale, {
-        duration: 1, // Duration of the animation in seconds
-        x: 1,
-        y: 1,
-        z: 1,
-        ease: 'elastic', // Easing function for smoother animation
-      })
-    }
-  }
-  if (value >= 0.2) {
+  if (value < 0.1) {
     gsap.to(planetRef.value.scale, {
       duration: 1, // Duration of the animation in seconds
+      x: 1,
+      y: 1,
+      z: 1,
+      ease: 'elastic.out', // Easing function for smoother animation
+    })
+    gsap.to(cameraRef.value.position, {
+      duration: 1.2, // Duration of the animation in seconds
+      ...cameraPositionEnd,
+      ease: 'power3.out', // Easing function for smoother animation
+      onUpdate: () => {
+        cameraRef.value.lookAt(2, 0, 0)
+      },
+    })
+  }
+  if (value >= 0.1) {
+    gsap.to(planetRef.value.scale, {
+      duration: 0.2, // Duration of the animation in seconds
       x: 0,
       y: 0,
       z: 0,
-      ease: 'elastic', // Easing function for smoother animation
+      ease: 'power4.out', // Easing function for smoother animation
+    })
+    gsap.to(cameraRef.value.position, {
+      duration: 1.2, // Duration of the animation in seconds
+      y: cameraPositionEnd.y + 3,
+      z: cameraPositionEnd.z + 3,
+      ease: 'power3.out', // Easing function for smoother animation
+      onUpdate: () => {
+        cameraRef.value.lookAt(3, 3, 0)
+      },
     })
   }
 })
@@ -78,18 +103,21 @@ const planetRef = ref()
 watch(hasFinishLoading, (value) => {
   if (value) {
     setTimeout(() => {
-      const initTimeline = gsap.timeline()
-      initTimeline.to(planetRef.value.scale, {
+      
+      gsap.to(planetRef.value.scale, {
         duration: 1, // Duration of the animation in seconds
         x: 1,
         y: 1,
         z: 1,
         ease: 'elastic', // Easing function for smoother animation
       })
-      initTimeline.to(cameraRef.value.position, {
+      gsap.to(cameraRef.value.position, {
         duration: 1.2, // Duration of the animation in seconds
         ...cameraPositionEnd,
         ease: 'power3.out', // Easing function for smoother animation
+        onUpdate: () => {
+          cameraRef.value.lookAt(2, 0, 0)
+        },
         onComplete: () => {
           cameraInitialAnimationEnd.value = true
         },
@@ -98,40 +126,18 @@ watch(hasFinishLoading, (value) => {
   }
 })
 
-/* 
-  beginning camera position = [40, 0, 80]
-  ending camera position = [2, 0, 10]
-*/
-
-/* onLoop(() => {
-  if (cameraRef.value) {
-    cameraRef.value.position.x = - progress.value * 40 + 40
-    cameraRef.value.position.z = - progress.value * 100 + 80
-  }
-}) */
-
-/* watch(progress, (value) => {
-  if (value < 0.37) {
-    cameraRef.value.position.x = interpolate(cameraPosition.x, cameraPositionEnd.x, value * 2.5)
-     cameraRef.value.position.y = interpolate(cameraPosition.y, cameraPositionEnd.y, value)
-    cameraRef.value.position.z = interpolate(cameraPosition.z, cameraPositionEnd.z, value * 2.5)
-  }
-  
-}) */
-
 watch(scrollProgress, (value) => {
-  /* if (value < 0.37) {
-    cameraRef.value.position.x = interpolate(cameraPosition.x, cameraPositionEnd.x, value * 2.5)
-    cameraRef.value.position.y = interpolate(cameraPosition.y, cameraPositionEnd.y, value)
-    cameraRef.value.position.z = interpolate(cameraPosition.z, cameraPositionEnd.z, value * 2.5)
+  /* if (value >= 0.5) {
+    gsap.to(cameraRef.value.position, {
+      duration: 1.2, // Duration of the animation in seconds
+      y: cameraRef.value.position.y - 0.5,
+      ease: 'power3.out', // Easing function for smoother animation
+      onUpdate: () => {
+        cameraRef.value.lookAt(0, cameraRef.value.position.y - 0.5, 0)
+      },
+    })
   } */
 })
-
-function onScroll(delta) {
-  /* if(cameraRef.value) {
-    cameraRef.value.position.y = interpolate(cameraPosition.y, cameraPositionEnd.y, - delta * 2.5)
-  } */
-}
 </script>
 
 <template>
@@ -173,25 +179,33 @@ function onScroll(delta) {
         </Transition>
       </div>
     </section>
-    <section class="min-h-screen snap-start flex justify-end items-center bg-dark">
-      <div class="prose text-light text-right mr-10% w-full w-1/4">
-        <h2
-          v-show="cameraInitialAnimationEnd"
-          class="text-4xl  font-extrabold"
+    <section class="min-h-screen snap-start flex justify-start items-center bg-dark">
+      <div class="prose text-light text-left ml-10% w-full w-1/4 pb-48">
+        <Transition
+          name="fade"
+          enter-active-class="animate-fade-in animate-duration-200 animate-count-1"
+          leave-active-class="animate-fade-out animate-duration-200 animate-count-1"
         >
-          I love Open Source 💚
-        </h2>
-        <p class="mb-16">
-          I work as <strong>DevRel</strong> at <a
-            href="storyblok"
-            target="_blank"
-            class="text-secondary"
-          >  <Icon name="logos:storyblok-icon" /> Storyblok</a> and I'm the author of <a
-            href="https://tresjs.org"
-            target="_blank"
-            class="text-secondary"
-          >TresJS</a> a vue custom renderer for <i>ThreeJS</i>.
-        </p>
+          <div v-show="scrollProgress >= 0.5">
+            <h2
+              v-show="cameraInitialAnimationEnd"
+              class="text-4xl  font-extrabold"
+            >
+              I love Open Source 💚
+            </h2>
+            <p class="mb-16 w-5/6">
+              I work as <strong>DevRel</strong> at <a
+                href="storyblok"
+                target="_blank"
+                class="text-secondary"
+              >  <Icon name="logos:storyblok-icon" /> Storyblok</a> and I'm the author of <a
+                href="https://tresjs.org"
+                target="_blank"
+                class="text-secondary"
+              >TresJS</a> a vue custom renderer for <i>ThreeJS</i>.
+            </p>
+          </div>
+        </Transition>
       </div>
     </section>
     <section class="min-h-screen snap-start container flex justify-end items-center">
@@ -214,30 +228,46 @@ function onScroll(delta) {
       ref="cameraRef"
       :position="cameraPosition"
     />
-    <ScrollControls
+    <ScrollCtrls
       ref="scRef"
       v-model="scrollProgress"
       :distance="10"
       :smooth-scroll="0.1"
       html-scroll
+      :cb="() => {}"
     >
-      <Suspense>
-        <Shevas />
-      </Suspense>
-    </ScrollControls>
-    <TresGroup
-      ref="planetRef"
-      :scale="[0, 0, 0]"
-    >
-      <Suspense>
-        <ThePlanet :progress="scrollProgress" />
-      </Suspense>
-    </TresGroup>
+      <TresGroup
+        ref="planetRef"
+        :scale="[0, 0, 0]"
+      >
+        <Suspense>
+          <ThePlanet />
+        </Suspense>
+      </TresGroup>
+      <TresGroup
+        ref="potionsRef"
+      >
+        <Suspense>
+          <PotionVue />
+        </Suspense>
+        <Suspense>
+          <Cauldron />
+        </Suspense>
+        <Suspense>
+          <Shevas />
+        </Suspense>
+        <Suspense>
+          <Mortar />
+        </Suspense>
+      </TresGroup>
+    </ScrollCtrls>
+  
     <MouseParallax
       v-if="cameraInitialAnimationEnd"
       :factor="0.2"
       :ease="3"
     />
+  
     <TresAmbientLight :intensity="2" />
     <TresPointLight
       color="#1BFFEF"

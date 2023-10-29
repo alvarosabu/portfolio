@@ -19,20 +19,21 @@
     "@tresjs/cientos": "^3.5.1",
     "@tresjs/leches": "^0.12.0",
     "@tresjs/nuxt": "^1.2.2",
-    "@tresjs/post-processing": "^0.4.0",
-    "@types/three": "^0.157.2",
-    "@unocss/nuxt": "^0.55.3",
+    "@tresjs/post-processing": "^0.5.0",
+    "@types/three": "^0.158.0",
+    "@unocss/core": "^0.57.1",
+    "@unocss/nuxt": "^0.57.1",
     "gsap": "^3.12.2",
     "pinia": "^2.1.7",
-    "three": "^0.157.0"
+    "three": "^0.158.0"
   },
   "devDependencies": {
     "@alvarosabu/eslint-config-vue": "^0.4.0",
     "@iconify-json/logos": "^1.1.37",
     "@nuxt/devtools": "1.0.0",
-    "@types/node": "^20.8.8",
+    "@types/node": "^20.8.9",
     "nuxt": "^3.8.0",
-    "nuxt-icon": "^0.5.0",
+    "nuxt-icon": "^0.6.1",
     "vite-svg-loader": "^4.0.0"
   }
 }

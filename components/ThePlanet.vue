@@ -2,15 +2,9 @@
 import type { TresObject3D } from '@tresjs/core'
 import { DoubleSide, MeshPhongMaterial } from 'three'
 
-const props = defineProps<{
-  progress: number
-}>()
-
-const { progress } = toRefs(props)
-
 const { nodes } = await useGLTF(
   '/models/Planet.glb',
-  { draco: true }
+  { draco: true },
 )
 
 const planet = nodes['Planet'] as TresObject3D

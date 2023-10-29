@@ -36,6 +36,7 @@ export const outfits = {
 }
 
 export const useClothes = (character) => {
+  const currentOutfit = ref('casual')
   const clothes = reactive({})
   const accesories = reactive({})
   const objects = reactive({})
@@ -62,6 +63,9 @@ export const useClothes = (character) => {
   })
 
   function setOutfit(outfit) {
+    if (!outfits[outfit]) return console.error(`Outfit ${outfit} not found`)
+    if (outfits[outfit] === currentOutfit.value) return
+    currentOutfit.value = outfits[outfit]
     Object.values(clothes).forEach((child) => {
       child.visible = false
     })
@@ -71,17 +75,17 @@ export const useClothes = (character) => {
     Object.values(objects).forEach((child) => {
       child.visible = false
     })
-    outfits[outfit].clothes.forEach((cloth) => {
+    currentOutfit.value.clothes.forEach((cloth) => {
       if (!clothes[`Cloth${cloth.name}`]) return console.error(`Cloth ${cloth.name} not found`)
       clothes[`Cloth${cloth.name}`].visible = true
       if (cloth.color) clothes[`Cloth${cloth.name}`].material.color.set(cloth.color)
     })
-    outfits[outfit].accesories.forEach((accesorie) => {
+    currentOutfit.value.accesories.forEach((accesorie) => {
       if (!accesories[`Accesory${accesorie.name}`]) return console.error(`Accesory ${accesorie.name} not found`)
       accesories[`Accesory${accesorie.name}`].visible = true
       if (accesorie.color) accesories[`Accesory${accesorie.name}`].material.color.set(accesorie.color)
     })
-    outfits[outfit].objects?.forEach((accesorie) => {
+    currentOutfit.value.objects?.forEach((accesorie) => {
       if (!objects[`Object${accesorie.name}`]) return console.error(`Object ${accesorie.name} not found`)
       objects[`Object${accesorie.name}`].visible = true
       if (accesorie.color) objects[`Object${accesorie.name}`].material.color.set(accesorie.color)

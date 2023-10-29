@@ -207,13 +207,15 @@ onLoop(() => {
     }
   }
   else if (props.cb !== undefined) {
+    const delta 
+         = (progress.value * props.distance) * props.smoothScroll
     /*    const delta */
     /*      = (progress.value * props.distance) * props.smoothScroll */
-    const delta
+    /*  const delta
       = (progress.value * props.distance) * props.smoothScroll
     if (wrapperRef.value.children.length > 0) {
       wrapperRef.value.position[direction] += delta
-    }
+    } */
     props.cb(delta)
   }
 })

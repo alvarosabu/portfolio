@@ -62,6 +62,7 @@ export function useCharacterCtrl(character, animations, options: CharacterCtrlOp
   }
 
   watch(action, (value) => {
+    if (actions[value] === currentAction.value) return
     if (currentAction.value) {
       currentAction.value.fadeOut(0.2)
     }
@@ -212,6 +213,7 @@ export function useCharacterCtrl(character, animations, options: CharacterCtrlOp
   })
 
   return {
+    currentAction,
     actions,
     wink,
     openEyes,

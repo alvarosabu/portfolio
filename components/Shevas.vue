@@ -11,6 +11,8 @@ const { seekByName } = useSeek()
 
 const character = computed(() => nodes.value['rig'])
 const characterRef = ref()
+const showCharacter = ref(false)
+
 const { changeEyes, changeAction, greet } = useCharacterCtrl(character, animations)
 
 const unwatchGretting = watch(cameraInitialAnimationEnd, (value) => {
@@ -20,50 +22,55 @@ const unwatchGretting = watch(cameraInitialAnimationEnd, (value) => {
     unwatchGretting()
   }
 })
-/* const isLocked = useScrollLock(window)
-isLocked.value = true */
+
+useControls({
+  scroll: scrollProgress,
+})
 
 watch(scrollProgress, (value) => {
-  if (value < 0.15) {
-    /* if (characterRef.value.scale.x === 0) { */
-    characterRef.value.visible = true
+  if (value < 0.1) {
+    showCharacter.value = true
+
+    setOutfit('casual')
+    changeAction('shevas_greeting')
+  }
+  if (value >= 0.1 && value < 0.5) {
+    showCharacter.value = false
+  }
+  if (value >= 0.480 && value < 0.6) {
+    showCharacter.value = true
+  
+    setOutfit('slytherin')
+    changeAction('shevas_spellcast')
+  }
+  if (value >= 0.6 && value < 0.9) {
+    showCharacter.value = true
+
+    setOutfit('casual')
+    changeAction('shevas_iddle')
+  }
+})
+
+watch(showCharacter, (value) => {
+  if (value) {
     gsap.to(characterRef.value.scale, {
       duration: 1, // Duration of the animation in seconds
       x: 1,
       y: 1,
       z: 1,
-      ease: 'elastic', // Easing function for smoother animation
+      ease: 'elastic.out', // Easing function for smoother animation
     })
-    setOutfit('casual')
-    changeAction('shevas_greeting')
-    /*  } */
-    
   }
-  if (value >= 0.15 && value < 0.5) {
+  else {
     gsap.to(characterRef.value.scale, {
       duration: 1, // Duration of the animation in seconds
       x: 0,
       y: 0,
       z: 0,
-      ease: 'elastic', // Easing function for smoother animation
+      ease: 'power4.out', // Easing function for smoother animation
     })
-    /* characterRef.value.position.y = -80 */
   }
-  if (value >= 0.480) {
-    /*  if (characterRef.value.scale.x === 0) { */
-    characterRef.value.visible = true
-    gsap.to(characterRef.value.scale, {
-      duration: 1, // Duration of the animation in seconds
-      x: 1,
-      y: 1,
-      z: 1,
-      ease: 'elastic', // Easing function for smoother animation
-    })
-    setOutfit('slytherin')
-    changeAction('shevas_spellcast')
-    /*  } */
 
-  }
 })
 
 // Materials
