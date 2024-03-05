@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
-import gsap from 'gsap'
-import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+
 import { storeToRefs } from 'pinia'
 
 import { useHomeStore } from '~/stores/home'
@@ -18,13 +17,6 @@ const gl = {
 definePageMeta({
   scrollToTop: true,
 })
-
-const bloomParams = reactive({
-  luminanceThreshold: 0.2,
-  luminanceSmoothing: 0.3,
-  mipmapBlur: true,
-  intensity: 0.5,
-}) 
 
 const story = await useAsyncStoryblok(
   'v3',
@@ -107,7 +99,7 @@ watch(hasFinishLoading, (value) => {
       </div>
     </section>
     <section class="min-h-screen snap-start flex justify-start items-center bg-dark">
-      <div class="prose text-light text-left ml-10% w-full w-1/4 pb-48">
+      <div class="prose text-light text-left ml-10% w-full sm:w-1/4 pb-48">
         <Transition
           name="fade"
           enter-active-class="animate-fade-in animate-duration-200 animate-count-1"
@@ -122,7 +114,7 @@ watch(hasFinishLoading, (value) => {
             </h2>
             <p class="mb-16 w-5/6">
               I work as <strong>DevRel</strong> at <a
-                href="storyblok"
+                href="https://www.storyblok.com/"
                 target="_blank"
                 class="text-secondary"
               >  <Icon name="logos:storyblok-icon" /> Storyblok</a> and I'm the author of <a
@@ -135,16 +127,7 @@ watch(hasFinishLoading, (value) => {
         </Transition>
       </div>
     </section>
-    <section class="min-h-screen snap-start container flex justify-end items-center">
-      <div class="w-1/2 text-primary text-right">
-        <h2 class="text-4xl font-extrabold mb-4">
-          Launch your 3D Portfolio
-        </h2>
-        <p class="font-italic">
-          And take it to the 🌕 🚀
-        </p>
-      </div>
-    </section>
+    <section class="min-h-screen snap-start container" />
   </main>
   <TresCanvas
     v-bind="gl"
@@ -161,36 +144,29 @@ watch(hasFinishLoading, (value) => {
       :cb="() => {}"
     >
       <PlanetSection />
-      <TresGroup
-        ref="potionsRef"
-      >
-        <Suspense>
-          <PotionVue />
-        </Suspense>
-        <Suspense>
-          <Cauldron />
-        </Suspense>
-        <Suspense>
-          <Shevas />
-        </Suspense>
-        <Suspense>
-          <Mortar />
-        </Suspense>
-      </TresGroup>
+      <Suspense>
+        <Shevas />
+      </Suspense>
+      <Suspense v-if="currentSection > 0 ">
+        <PotionsClassSection />
+      </Suspense>
+      <CardSection v-if="currentSection > 1 " />
     </ScrollCtrls>
-  
+    <!--     <OrbitControls /> -->
     <MouseParallax
       v-if="cameraInitialAnimationEnd"
       :factor="0.2"
       :ease="3"
     />
-  
+
     <TresAmbientLight :intensity="2" />
-    <TresPointLight
-      color="#1BFFEF"
-      :position="[0, 8, -16]"
-      :intensity="8"
-      cast-shadow
+
+    <ContactShadows
+      v-if="currentSection > 1"
+      :blur="3.5"
+      :width="3"
+      :height="3"
+      :opacity="0.8"
     />
     <TresDirectionalLight
       :position="[0, 2, 4]"
@@ -203,5 +179,8 @@ watch(hasFinishLoading, (value) => {
 <style>
 html {
   scroll-snap-type: y mandatory;
+}
+.wrapper {
+  position: fixed !important;
 }
 </style>

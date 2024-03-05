@@ -12,28 +12,32 @@
     "lint": "eslint --ext .ts,.tsx ."
   },
   "dependencies": {
+    "@alvarosabu/storyblok-richtext-vue-renderer": "^0.1.1",
     "@alvarosabu/ui": "3.0.0-alpha.8",
     "@pinia/nuxt": "^0.5.1",
     "@storyblok/js": "^2.3.0",
-    "@storyblok/nuxt": "^5.7.4",
-    "@tresjs/cientos": "^3.5.1",
-    "@tresjs/leches": "^0.12.0",
-    "@tresjs/nuxt": "^1.2.2",
-    "@tresjs/post-processing": "^0.5.0",
-    "@types/three": "^0.158.0",
-    "@unocss/core": "^0.57.1",
-    "@unocss/nuxt": "^0.57.1",
-    "gsap": "^3.12.2",
+    "@storyblok/nuxt": "^5.7.9",
+    "@tresjs/cientos": "^3.7.0",
+    "@tresjs/core": "3.6.0",
+    "@tresjs/leches": "0.14.0",
+    "@tresjs/nuxt": "2.0.1",
+    "@tresjs/post-processing": "0.7.0",
+    "@types/three": "^0.159.0",
+    "@unocss/core": "^0.58.0",
+    "@unocss/nuxt": "^0.58.0",
+    "gsap": "^3.12.3",
     "pinia": "^2.1.7",
-    "three": "^0.158.0"
+    "three": "^0.159.0"
   },
   "devDependencies": {
     "@alvarosabu/eslint-config-vue": "^0.4.0",
-    "@iconify-json/logos": "^1.1.37",
-    "@nuxt/devtools": "1.0.0",
-    "@types/node": "^20.8.9",
-    "nuxt": "^3.8.0",
-    "nuxt-icon": "^0.6.1",
-    "vite-svg-loader": "^4.0.0"
+    "@iconify-json/carbon": "^1.1.26",
+    "@iconify-json/logos": "^1.1.41",
+    "@nuxt/devtools": "1.0.6",
+    "@nuxt/image": "^1.1.0",
+    "@types/node": "^20.10.4",
+    "nuxt": "^3.8.2",
+    "nuxt-icon": "^0.6.7",
+    "vite-svg-loader": "^5.1.0"
   }
 }

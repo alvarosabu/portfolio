@@ -9,7 +9,7 @@ const spoon = nodes.Spon
 const potion = nodes.Potion
 const potionCauldronRef = ref()
 
-watch(scrollProgress, (value) => {
+/* watch(scrollProgress, (value) => {
   if (value >= 0.5 && value < 0.9) {
     gsap.to(potionCauldronRef.value.scale, {
       delay: 1,
@@ -29,10 +29,11 @@ watch(scrollProgress, (value) => {
       ease: 'power4.out', // Easing function for smoother animation
     })
   }
-})
+}) */
 
 watch(potionCauldronRef, (value) => {
-  potionCauldronRef.value.scale.set(0, 0, 0)
+/*   potionCauldronRef.value.scale.set(0, 0, 0)  */
+  /* potionCauldronRef.value.scale.set(0, 0, 0) */
   potionCauldronRef.value.position.set(5, 2, 0)
   potionCauldronRef.value.rotation.set(0.1, -2.6, -0.6)
   /*  potion.rotation.set(0, +1, +0.6)

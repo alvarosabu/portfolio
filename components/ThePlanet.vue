@@ -2,16 +2,20 @@
 import type { TresObject3D } from '@tresjs/core'
 import { DoubleSide, MeshPhongMaterial } from 'three'
 
-const { nodes } = await useGLTF(
+const { nodes, scene } = await useGLTF(
   '/models/Planet.glb',
   { draco: true },
 )
+
+const { seekAllByName } = useSeek()
 
 const planet = nodes['Planet'] as TresObject3D
 const planetRef = shallowRef()
 
 const palmTree = nodes['PalmTree'] as TresObject3D
 const palmTreeRef = shallowRef()
+
+const clouds = seekAllByName(scene, 'Cloud') as TresObject3D[]
 
 const planetTexture = await useTexture(['/models/planet.png'])
 planetTexture.flipY = false
@@ -37,6 +41,11 @@ palmTree.material = new MeshPhongMaterial({
     <primitive
       ref="palmTreeRef"
       :object="palmTree"
+    />
+    <primitive
+      v-for="cloud in clouds"
+      :key="cloud.uuid"
+      :object="cloud"
     />
   </TresGroup>
 </template>

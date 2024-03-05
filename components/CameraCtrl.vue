@@ -19,14 +19,21 @@ const positions = [
   new Vector3(40, 0, 80),
   new Vector3(2, 0, 10),
   new Vector3(2, 3, 13),
-  new Vector3(2, 2, 10),
+  new Vector3(-1.4, 2.9, 10),
 ]
+
+const look = ref(new Vector3(2, 2, 0))
 // Camera init
 watch(cameraRef, () => {
   if (cameraRef.value) {
-    useControls('Camera', {
+    const { lookAt } = useControls({
       position: cameraRef.value.position,
+      lookAt: look.value,
     })
+
+    watch(lookAt.value, ({ value }) => {
+      cameraRef.value.lookAt(value)
+    }, { immediate: true })
   }
 })
 
@@ -36,6 +43,9 @@ function toInitialCameraAnimation() {
     duration: 1.2, // Duration of the animation in seconds
     ...positions[1],
     ease: 'power3.out', // Easing function for smoother animation
+    onUpdate: () => {
+      cameraRef.value.lookAt(2, 2, 0)
+    },
     onComplete: () => {
       cameraInitialAnimationEnd.value = true
     },
@@ -49,6 +59,15 @@ watch(hasFinishLoadingModels, (value) => {
   }
 })
 
+const controlsRef = ref()
+/* watch(controlsRef, () => {
+  if (controlsRef.value) {
+    useControls('Orbit', {
+      controls: controlsRef.value,
+    })
+  }
+}) */
+
 // Camera animation on scroll
 watch(currentSection, (value) => {
   switch (value) {
@@ -58,7 +77,7 @@ watch(currentSection, (value) => {
         ...positions[1],
         ease: 'power3.out', // Easing function for smoother animation
         onUpdate: () => {
-          cameraRef.value.lookAt(2, 0, 0)
+          cameraRef.value.lookAt(2, 2, 0)
         },
       })
       break
@@ -78,7 +97,7 @@ watch(currentSection, (value) => {
         ...positions[3],
         ease: 'power3.out', // Easing function for smoother animation
         onUpdate: () => {
-          cameraRef.value.lookAt(2, 0, 0)
+          cameraRef.value.lookAt(4, 2, 0)
         },
       })
       break
@@ -95,4 +114,5 @@ watch(currentSection, (value) => {
     ref="cameraRef"
     :position="positions[0]"
   />
+<!--   <OrbitControls ref="controlsRef" /> -->
 </template>

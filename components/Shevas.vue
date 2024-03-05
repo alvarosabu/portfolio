@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import { DoubleSide, MeshPhongMaterial } from 'three'
+import { MeshPhongMaterial } from 'three'
 import gsap from 'gsap'
-import { useScrollLock } from '@vueuse/core'
 
-const { scene, nodes, animations } = await useReactiveGLTF('/models/Shevas-v3.glb', { draco: true })
+const { scene, nodes, animations } = await useReactiveGLTF('/models/Shevas-v4.glb', { draco: true })
 
 const store = useHomeStore()
-const { scrollProgress, cameraInitialAnimationEnd } = storeToRefs(store)
+const { scrollProgress, cameraInitialAnimationEnd, currentSection } = storeToRefs(store)
 const { seekByName } = useSeek()
 
 const character = computed(() => nodes.value['rig'])
 const characterRef = ref()
 const showCharacter = ref(false)
 
-const { changeEyes, changeAction, greet } = useCharacterCtrl(character, animations)
+const { openEyes,
+  closeEyes,
+  changeAction,
+  greet,
+  followMouse, 
+} = useCharacterCtrl(character, animations)
 
 const unwatchGretting = watch(cameraInitialAnimationEnd, (value) => {
   if (value) {
@@ -23,16 +27,13 @@ const unwatchGretting = watch(cameraInitialAnimationEnd, (value) => {
   }
 })
 
-useControls({
-  scroll: scrollProgress,
-})
-
 watch(scrollProgress, (value) => {
   if (value < 0.1) {
     showCharacter.value = true
 
     setOutfit('casual')
     changeAction('shevas_greeting')
+    followMouse.value = false
   }
   if (value >= 0.1 && value < 0.5) {
     showCharacter.value = false
@@ -42,12 +43,16 @@ watch(scrollProgress, (value) => {
   
     setOutfit('slytherin')
     changeAction('shevas_spellcast')
+    closeEyes()
+    followMouse.value = false
   }
   if (value >= 0.6 && value < 0.9) {
     showCharacter.value = true
 
     setOutfit('casual')
-    changeAction('shevas_iddle')
+    changeAction('shevas_iddle_action')
+    openEyes()
+    followMouse.value = true
   }
 })
 
