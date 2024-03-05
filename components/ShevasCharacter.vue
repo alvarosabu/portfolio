@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MeshPhongMaterial, DoubleSide, Vector3, Quaternion } from 'three'
 
-const { scene, nodes, animations } = await useReactiveGLTF('/models/shevas-v3.glb', { draco: true })
+const { scene, nodes, animations } = await useReactiveGLTF('/models/shevas-v4.glb', { draco: true })
 
 const { seekByName } = useSeek()
 
@@ -15,9 +15,11 @@ gsap.to(character.value.scale, {
   ease: 'elastic.out', // Easing function for smoother animation
 })
 
-const { changeEyes, changeAction, actions } = useCharacterCtrl(character, animations, {
+const { changeEyes, changeAction, actions, followMouse } = useCharacterCtrl(character, animations, {
   allowMovement: true,
 })
+
+followMouse.value = true
 
 const { value: eye } = useControls({
   controls: {

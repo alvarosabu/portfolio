@@ -1,5 +1,5 @@
 import { Quaternion, Vector3 } from 'three'
-import { onKeyDown, onKeyUp, watchDebounced } from '@vueuse/core'
+import { onKeyDown, onKeyUp, useMouse } from '@vueuse/core'
 
 export interface CharacterCtrlOptions {
   allowMovement?: boolean
@@ -11,6 +11,7 @@ export function useCharacterCtrl(character, animations, options: CharacterCtrlOp
 }) {
   const eye = ref('open')
   const action = ref('shevas_iddle_action')
+  const followMouse = ref(false)
 
   const { seekByName } = useSeek()
 
@@ -221,6 +222,7 @@ export function useCharacterCtrl(character, animations, options: CharacterCtrlOp
     changeEyes,
     changeAction,
     greet,
+    followMouse,
   }
   
 }
