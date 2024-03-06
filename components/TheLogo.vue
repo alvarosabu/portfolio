@@ -25,14 +25,9 @@ const lastName = ref('Sabu')
       width="32"
       height="32"
       alt="Alvaro Saburido avatar"
-      w-8
-      h-8
-      border="2 gray-300"
+      w-9
+      h-9
       mr-4
-      inline-flex
-      bg-secondary-400
-      rounded-full
-      overflow-hidden
     >
     <span
       class="mr-1 sm:inline-block text-primary-400"
