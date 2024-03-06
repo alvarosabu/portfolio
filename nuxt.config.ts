@@ -21,16 +21,19 @@ export default defineNuxtConfig({
       storyblokVersion: process.env.STORYBLOK_VERSION || 'published',
     },
   },
+  build: {
+    /*     transpile: ['@alvarosabu/storyblok-richtext-vue-renderer'], */
+  },
   modules: [
-    '@unocss/nuxt',
-    '@tresjs/nuxt',
-    'nuxt-icon', [
+    [
       '@storyblok/nuxt',
       {
         accessToken: process.env.STORYBLOK_API_TOKEN,
-        devtools: true,
       },
     ],
+    '@unocss/nuxt',
+    '@tresjs/nuxt',
+    'nuxt-icon', 
     '@pinia/nuxt',
     '@nuxt/image',
     '@nuxt/devtools',
@@ -45,7 +48,7 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [SvgLoader()],
-    optimizeDeps: { exclude: ['fsevents'] },
+    /*  optimizeDeps: { include: ['@alvarosabu/storyblok-richtext-vue-renderer'], exclude: ['fsevents'] }, */
     resolve: {
       dedupe: ['three'],
     },

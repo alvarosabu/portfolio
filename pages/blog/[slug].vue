@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SbRichText } from '@alvarosabu/storyblok-richtext-vue-renderer'
+/* import { SbRichText } from '@alvarosabu/storyblok-richtext-vue-renderer' */
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -36,6 +36,6 @@ console.log(story)
         {{ story.content.intro }}
       </p>
     </header>
-    <SbRichText :doc="story.content.content" />
+    <!--     <SbRichText :doc="story.content.content" /> -->
   </main>
 </template>

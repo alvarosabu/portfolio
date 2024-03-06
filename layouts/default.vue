@@ -4,10 +4,14 @@
   <div>
     <TheHeader />
 
-    <div class="page  bg-white dark:bg-primary">
+    <div class="bg-white dark:bg-primary">
       <slot />
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style>
+:root {
+  --header-height: 48px;
+}
+</style>
