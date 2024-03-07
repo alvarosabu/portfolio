@@ -16,7 +16,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  css: ['@alvarosabu/ui/styles', '@tresjs/leches/styles'],
+  css: ['@alvarosabu/ui/styles', '~/styles/index.css', '@tresjs/leches/styles'],
   runtimeConfig: {
     public: {
       apiToken: process.env.STORYBLOK_API_TOKEN,
@@ -58,6 +58,11 @@ export default defineNuxtConfig({
   },
   tres: {
     devtools: true,
+  },
+  image: {
+    storyblok: {
+      baseURL: 'https://a.storyblok.com',
+    },
   },
   nuxtIcon: {
     size: '24px', // default <Icon> size applied

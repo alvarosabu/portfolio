@@ -12,7 +12,8 @@
     "lint": "eslint --ext .ts,.tsx ."
   },
   "dependencies": {
-    "@alvarosabu/ui": "3.0.0-alpha.15",
+    "@alvarosabu/storyblok-richtext-vue-renderer": "^0.1.2",
+    "@alvarosabu/ui": "3.0.0-alpha.16",
     "@pinia/nuxt": "^0.5.1",
     "@tresjs/cientos": "^3.8.0",
     "@tresjs/core": "3.7.0",

@@ -5,9 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@alvarosabu/storyblok-richtext-vue-renderer':
+    specifier: ^0.1.2
+    version: 0.1.2(typescript@5.3.3)
   '@alvarosabu/ui':
-    specifier: 3.0.0-alpha.15
-    version: 3.0.0-alpha.15(typescript@5.3.3)
+    specifier: 3.0.0-alpha.16
+    version: 3.0.0-alpha.16(typescript@5.3.3)
   '@pinia/nuxt':
     specifier: ^0.5.1
     version: 0.5.1(typescript@5.3.3)(vue@3.4.21)
@@ -155,8 +158,16 @@ packages:
       - supports-color
     dev: true
 
-  /@alvarosabu/ui@3.0.0-alpha.15(typescript@5.3.3):
-    resolution: {integrity: sha512-2WjIpP9nggz4RhC81YdbINiqRfT4LGCNRbFpFnlSj/UCTzfLN130uhfpnDi97KSdmGQd5zGeyrTyZHzDOOz7Xw==}
+  /@alvarosabu/storyblok-richtext-vue-renderer@0.1.2(typescript@5.3.3):
+    resolution: {integrity: sha512-2DOW4S73CtTJNsKY/y+2XEq/grePQlyklPvX9Ev8Q3GWd92zvDXvPYGqFY57bLuDoaD0CH7yyH74lrWe4s1i1w==}
+    dependencies:
+      vue: 3.4.21(typescript@5.3.3)
+    transitivePeerDependencies:
+      - typescript
+    dev: false
+
+  /@alvarosabu/ui@3.0.0-alpha.16(typescript@5.3.3):
+    resolution: {integrity: sha512-TPOl4UuvkK+BPAJqtLBgnXnUTf/K6xZNmsEGIVJUl3qQNssx9TFlf2iQCMn3zBFUU6UwL4NqpqxiY8Qt/xHpvg==}
     dependencies:
       '@vueuse/core': 10.9.0(vue@3.4.21)
       sass: 1.71.1
@@ -6756,6 +6767,7 @@ packages:
 
   /napi-wasm@1.1.0:
     resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    requiresBuild: true
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}

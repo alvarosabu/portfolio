@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { SbRichText } from '@alvarosabu/storyblok-richtext-vue-renderer'
+
 import { format } from 'date-fns'
 import { StoryStatus } from '~/types'
 import type { ArticleStory } from '~/types/articles'
 
 useHead({
-  title: 'Blog - AS Portfolio',
+  title: 'Blog - AlvaroSabu',
   htmlAttrs: {
     lang: 'en',
   },
@@ -17,17 +19,19 @@ useHead({
   ],
 })
 useSeoMeta({
-  title: 'Blog - AS Portfolio',
+  title: 'Blog - AlvaroSabu',
   description: 'A collection of articles about web development, design, 3D, and other topics.',
   ogDescription: 'A collection of articles about web development, design, 3D, and other topics.',
   ogUrl: 'https://alvarosaburido.dev/blog/',
   ogType: 'website',
-  ogSiteName: 'AS Portfolio',
-  ogTitle: 'Blog - AS Portfolio',
+  ogSiteName: 'AlvaroSabu',
+  ogTitle: 'Blog - AlvaroSabu',
   ogImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1671031889/portfolio/og/og-blog_bnhvts.png',
+  ogImageAlt: 'Blog - AlvaroSabu',
   twitterDescription: 'A collection of articles about web development, design, 3D, and other topics.',
-  twitterTitle: 'Blog - AS Portfolio',
+  twitterTitle: 'Blog - AlvaroSabu',
   twitterImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1671031889/portfolio/og/og-blog_bnhvts.png',
+  twitterImageAlt: 'Blog - AlvaroSabu',
   twitterCard: 'summary_large_image',
 })
 
@@ -40,10 +44,6 @@ const story = await useAsyncStoryblok(
 
 // Fetching list of articles
 const storyblokApi = useStoryblokApi()
-
-const state = reactive({
-  articles: [],
-})
 
 const { data: articles } = await storyblokApi.get('cdn/stories', {
   version: 'draft',
@@ -67,31 +67,8 @@ function formatArticleStory(story: ArticleStory): ArticleStory {
 const formattedArticles = computed(() => 
   articles.stories
     .map(formatArticleStory)
-    .filter((article: ArticleStory) => article.status === StoryStatus.PUBLISHED),
+    .filter((article: ArticleStory) => article.status === StoryStatus.PUBLISHED), 
 )
-
-function onBeforeEnter(el) {
-  el.style.opacity = 0
-  el.style.height = 0
-}
-
-function onEnter(el, done) {
-  gsap.to(el, {
-    opacity: 1,
-    height: '1.6em',
-    delay: el.dataset.index * 0.15,
-    onComplete: done,
-  })
-}
-
-function onLeave(el, done) {
-  gsap.to(el, {
-    opacity: 0,
-    height: 0,
-    delay: el.dataset.index * 0.15,
-    onComplete: done,
-  })
-}
 </script>
 
 <template>
@@ -112,14 +89,9 @@ function onLeave(el, done) {
         Blog
       </h1>
     </header>
-    <TransitionGroup
-      name="list"
-      tag="section"
+    <section
+      v-if="formattedArticles.length > 0"
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24"
-      :css="false"
-      @before-enter="onBeforeEnter"
-      @enter="onEnter"
-      @leave="onLeave"
     >
       <article
         v-for="(article, index) in formattedArticles"
@@ -133,6 +105,8 @@ function onLeave(el, done) {
           :src="article.content.media.filename"
           :alt="article.content.media.alt"
           aspect-ratio="16/9"
+          provider="storyblok"
+          format="webp"
         />
         <div class="px-4 prose pb-4">
           <h2 class="text-xl font-bold hover:text-secondary transition-all ease-in">
@@ -150,6 +124,11 @@ function onLeave(el, done) {
           </footer>
         </div>
       </article>
-    </TransitionGroup>
+    </section>
+    <template v-else>
+      <ErrorState :title="`${story?.content?.error_state[0].title} 🐛`">
+        <SbRichText :doc="story?.content?.error_state[0].message.content" />
+      </ErrorState>
+    </template>
   </main>
 </template>
