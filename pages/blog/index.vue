@@ -110,7 +110,7 @@ const formattedArticles = computed(() =>
         />
         <div class="px-4 prose pb-4">
           <h2 class="text-xl font-bold hover:text-secondary transition-all ease-in">
-            <NuxtLink :to="article.full_slug">
+            <NuxtLink :to="article.slug">
               {{ article.content.title }}
             </NuxtLink>
           </h2>
