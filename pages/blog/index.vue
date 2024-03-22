@@ -91,7 +91,7 @@ const formattedArticles = computed(() =>
     </header>
     <section
       v-if="formattedArticles.length > 0"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24"
+      class="relative z-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24"
     >
       <article
         v-for="(article, index) in formattedArticles"
