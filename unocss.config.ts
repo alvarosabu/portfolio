@@ -3,6 +3,7 @@ import {
   shortcuts, 
   rules,
   fonts,
+  icons,
   typography, 
 } from '@alvarosabu/ui'
 import type {
@@ -20,29 +21,20 @@ import {
 
 export default defineConfig({
   theme,
-  shortcuts,
+  shortcuts: [
+    ...shortcuts,
+    {
+      'as-container': 'lg:container mx-auto px-4 xl:px-0',
+      page: 'min-h-100vh pt-48px text-primary dark:text-gray-200 font-sans',
+      'page-headline': 'my-12 lg:my-24',
+    },
+  ],
   rules,
   presets: [
     presetUno(),
     presetAttributify(),
-    presetIcons({
-      scale: 1.2,
-      warn: true,
-      extraProperties: {
-        display: 'inline-block',
-        'vertical-align': 'middle',
-        // ...
-      },
-    }),
-    presetWebFonts({
-      provider: 'google', // default provider
-      fonts: {
-        // these will extend the default theme
-        sans: ['Inter', 'Inter:400,700'],
-        mono: ['Fira Code', 'Fira Code:400,700' ],
-        display: ['Inter'],
-      },
-    }) as unknown as Preset,
+    presetIcons(icons),
+    presetWebFonts(fonts),
     presetTypography(typography) as unknown as Preset,
   ],
   transformers: [transformerDirectives(), transformerVariantGroup()],

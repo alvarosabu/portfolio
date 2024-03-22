@@ -11,9 +11,12 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
       ],
+      htmlAttrs: {
+        lang: 'en',
+      },
     },
   },
-  css: ['@alvarosabu/ui/styles', '@tresjs/leches/styles'],
+  css: ['@alvarosabu/ui/styles', '~/styles/index.css', '@tresjs/leches/styles'],
   runtimeConfig: {
     public: {
       apiToken: process.env.STORYBLOK_API_TOKEN,
@@ -21,16 +24,19 @@ export default defineNuxtConfig({
       storyblokVersion: process.env.STORYBLOK_VERSION || 'published',
     },
   },
+  build: {
+    /*     transpile: ['@alvarosabu/storyblok-richtext-vue-renderer'], */
+  },
   modules: [
-    '@unocss/nuxt',
-    '@tresjs/nuxt',
-    'nuxt-icon', [
+    [
       '@storyblok/nuxt',
       {
         accessToken: process.env.STORYBLOK_API_TOKEN,
-        devtools: true,
       },
     ],
+    '@unocss/nuxt',
+    '@tresjs/nuxt',
+    'nuxt-icon', 
     '@pinia/nuxt',
     '@nuxt/image',
     '@nuxt/devtools',
@@ -45,13 +51,18 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [SvgLoader()],
-    optimizeDeps: { exclude: ['fsevents'] },
+    /*  optimizeDeps: { include: ['@alvarosabu/storyblok-richtext-vue-renderer'], exclude: ['fsevents'] }, */
     resolve: {
       dedupe: ['three'],
     },
   },
   tres: {
     devtools: true,
+  },
+  image: {
+    storyblok: {
+      baseURL: 'https://a.storyblok.com',
+    },
   },
   nuxtIcon: {
     size: '24px', // default <Icon> size applied

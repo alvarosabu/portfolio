@@ -29,32 +29,7 @@ useControls({
 </script>
 
 <template>
-  <TresLeches class="important-fixed important-z-100" />
-
-  <TresCanvas
-    v-bind="gl"
-    window-size
-  >
-    <TresPerspectiveCamera
-      :position="[0, 4, 20]"
-      :look-at="[0, 4, 0]"
-    />
-    <OrbitControls />
-    <!--  <TresGridHelper /> -->
-    <Suspense>
-      <Shevas />
-    </Suspense>
-    <TresAmbientLight :intensity="2" />
-    <TresPointLight
-      color="#1BFFEF"
-      :position="[0, 8, -16]"
-      :intensity="8"
-      cast-shadow
-    />
-    <TresDirectionalLight
-      :position="[0, 2, 4]"
-      :intensity="1"
-      cast-shadow
-    />
-  </TresCanvas>
+  <main class="min-h-100vh pt-96px as-container">
+    <AsButton label="Accept" />
+  </main>
 </template>
