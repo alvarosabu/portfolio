@@ -61,8 +61,16 @@ useSeoMeta({
 <template>
   <main
     role="main"
-    class="as-container page"
+    class="as-container page relative"
   >
+    <AsGraphic
+      class="fixed left-0 blur-md pointer-events-none"
+      type="blob"
+    />
+    <AsGraphic
+      class="fixed top-24 right-0 opacity-20 pointer-events-none"
+      type="dots"
+    />
     <header class="prose mx-auto border-b pb-8">
       <p class="my-12 lg:my-24">
         <NuxtLink to="/blog">
