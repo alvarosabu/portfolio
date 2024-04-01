@@ -64,10 +64,10 @@ function formatArticleStory(story: ArticleStory): ArticleStory {
   return story
 }
 
-const formattedArticles = computed(() => 
+const formattedArticles = computed(() =>
   articles.stories
     .map(formatArticleStory)
-    .filter((article: ArticleStory) => article.status === StoryStatus.PUBLISHED), 
+    .filter((article: ArticleStory) => article.status === StoryStatus.PUBLISHED),
 )
 </script>
 
@@ -110,7 +110,7 @@ const formattedArticles = computed(() =>
         />
         <div class="px-4 prose pb-4">
           <h2 class="text-xl font-bold hover:text-secondary transition-all ease-in">
-            <NuxtLink :to="article.slug">
+            <NuxtLink :to="`blog/${article.slug}`">
               {{ article.content.title }}
             </NuxtLink>
           </h2>

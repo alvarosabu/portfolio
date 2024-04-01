@@ -1,24 +1,32 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
 import { AsCodeBlock } from '@alvarosabu/ui'
+import { StoryblokComponent } from '@storyblok/vue'
+import { BlockTypes, ComponentTypes, SbRichText } from '@alvarosabu/storyblok-richtext-vue-renderer'
 
-import { SbRichText, BlockTypes } from '@alvarosabu/storyblok-richtext-vue-renderer'
+/* const componentResolver = ({ attrs, children }) =>
+  h(StoryblokComponent, {
+    key: attrs._uid,
+    blok: attrs.body[0],
+  }) */
 
 const resolvers = {
-  [BlockTypes.CODE_BLOCK]: ({ children, attrs }) =>
-    h(
+  [BlockTypes.CODE_BLOCK]: ({ children, attrs }) => {
+    return h(
       AsCodeBlock,
-      { code: children[0].children, language: attrs?.class?.split('-').pop() || '' },
+      { code: children[0][0].children, language: attrs?.class?.split('-').pop() || '' },
       () => children,
-    ),
+    )
+  },
+  /* [ComponentTypes.COMPONENT]: componentResolver, */
 }
 
 const route = useRoute()
 const config = useRuntimeConfig()
 const story = await useAsyncStoryblok(
   route.path,
-  { 
-    version: config.public.storyblokVersion,
+  {
+    version: config.public.storyblokVersion as any,
   },
 )
 const storyPublishedDate = computed(() =>
@@ -62,14 +70,14 @@ useSeoMeta({
   <main
     role="main"
     class="as-container page"
-  > 
+  >
     <header class="prose mx-auto border-b pb-8">
       <p class="my-12 lg:my-24">
         <NuxtLink to="/blog">
-          <i class="i-carbon-chevron-left" /> Back to blog
+          <i class="i-carbon-chevron-left"></i> Back to blog
         </NuxtLink>
       </p>
-      <NuxtImg 
+      <NuxtImg
         class="w-full mb-8 rounded-lg"
         :src="story?.content.media?.filename"
         :alt="story?.content.media?.alt"
@@ -87,6 +95,7 @@ useSeoMeta({
     </header>
     <div class="prose mx-auto overflow-hidden">
       <SbRichText
+        v-if="story.content.content"
         :doc="story.content.content"
         :resolvers="resolvers"
       />

@@ -1,7 +1,7 @@
 {
   "name": "@alvarosabu/portfolio",
   "version": "3.0.0",
-  "type":"module",
+  "type": "module",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -13,7 +13,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@alvarosabu/storyblok-richtext-vue-renderer": "^0.1.2",
+    "@alvarosabu/storyblok-richtext-vue-renderer": "0.2.0-next.1",
     "@alvarosabu/ui": "3.0.0-alpha.16",
     "@pinia/nuxt": "^0.5.1",
     "@tresjs/cientos": "^3.8.0",

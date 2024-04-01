@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@alvarosabu/storyblok-richtext-vue-renderer':
-    specifier: ^0.1.2
-    version: 0.1.2(typescript@5.4.3)
+    specifier: 0.2.0-next.1
+    version: 0.2.0-next.1(typescript@5.4.3)
   '@alvarosabu/ui':
     specifier: 3.0.0-alpha.16
     version: 3.0.0-alpha.16(typescript@5.4.3)
@@ -120,8 +120,8 @@ packages:
       - vitest
     dev: true
 
-  /@alvarosabu/storyblok-richtext-vue-renderer@0.1.2(typescript@5.4.3):
-    resolution: {integrity: sha512-2DOW4S73CtTJNsKY/y+2XEq/grePQlyklPvX9Ev8Q3GWd92zvDXvPYGqFY57bLuDoaD0CH7yyH74lrWe4s1i1w==}
+  /@alvarosabu/storyblok-richtext-vue-renderer@0.2.0-next.1(typescript@5.4.3):
+    resolution: {integrity: sha512-fFahU+GUcwUkAyDOVLvSvW7PQW09j8DxatXeEowPTgr/OCS5MDUvytAVVIqtA7RfnVMTlqBSWUJ8MqCMexXKUA==}
     dependencies:
       vue: 3.4.21(typescript@5.4.3)
     transitivePeerDependencies:

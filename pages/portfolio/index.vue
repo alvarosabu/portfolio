@@ -65,23 +65,23 @@ function formatProjectStory(story: ProjectStory): ProjectStory {
   return story
 }
 
-const publishedProjects = computed(() => 
+const publishedProjects = computed(() =>
   projects.stories
-    .map(story => {
+    .map((story) => {
       story.content.category = projects.rels.find(({ uuid }) => story.content.category === uuid)
       return story
     })
     .map(formatProjectStory)
-    .filter((project: ProjectStory) => project.status === StoryStatus.PUBLISHED), 
+    .filter((project: ProjectStory) => project.status === StoryStatus.PUBLISHED),
 )
 </script>
 
 <template>
-  <main 
+  <main
     role="main"
     class="as-container page relative"
   >
-  <AsGraphic
+    <AsGraphic
       class="fixed left-0 blur-md pointer-events-none"
       type="blob"
     />
@@ -127,7 +127,7 @@ const publishedProjects = computed(() =>
         </header>
         <div class="px-4 prose pb-4">
           <h2 class="text-xl font-bold hover:text-secondary transition-all ease-in">
-            <NuxtLink :to="project.slug">
+            <NuxtLink :to="`portfolio/${project.slug}`">
               {{ project.content.title }}
             </NuxtLink>
           </h2>
