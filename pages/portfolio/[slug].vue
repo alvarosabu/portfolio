@@ -15,19 +15,24 @@ const resolvers = {
 
 const route = useRoute()
 const config = useRuntimeConfig()
-const story = await useAsyncStoryblok(
-  route.path,
-  {
-    version: config.public.storyblokVersion as any,
-  },
-)
-const storyPublishedDate = computed(() =>
-  format(new Date(story?.value.published_at), 'MMMM dd, yyyy'),
-)
+const storyapi = useStoryblokApi()
+const story = ref(null)
+
+const { data } = await storyapi.get('cdn/stories', {
+  version: config.public.storyblokVersion,
+  starts_with: 'portfolio',
+  // Prepend */ to match with the first part of the full_slug
+  by_slugs: `*/${route.params.slug}`,
+  resolve_relations: 'category',
+})
+
+story.value = data.stories[0]
+story.value.content.category = data.rels.find(({ uuid }) => story.value.content.category === uuid)
+story.value.published_at = format(new Date(story.value.published_at), 'MMMM dd, yyyy')
 
 // Metadata
 useHead({
-  title: `${story?.content?.title} - AlvaroSabu`,
+  title: `${story.value?.content?.title} - AlvaroSabu`,
   htmlAttrs: {
     lang: 'en',
   },
@@ -44,7 +49,7 @@ useSeoMeta({
   keywords: story?.value.tag_list?.join(', '),
   description: story?.value.content.excerpt,
   ogDescription: story?.value.content.excerpt,
-  ogUrl: `https://alvarosaburido.dev/blog/${route.params.slug}`,
+  ogUrl: `https://alvarosaburido.dev/portfolio/${route.params.slug}`,
   ogType: 'article',
   ogSiteName: 'AlvaroSabu',
   ogTitle: `${story?.value.content?.title} - AlvaroSabu`,
@@ -73,27 +78,27 @@ useSeoMeta({
     />
     <header class="prose mx-auto border-b pb-8">
       <p class="my-12 lg:my-24">
-        <NuxtLink to="/blog">
-          <i class="i-carbon-chevron-left"></i> Back to blog
+        <NuxtLink to="/portfolio">
+          <i class="i-carbon-chevron-left"></i> Back to portfolio
         </NuxtLink>
       </p>
       <NuxtImg
-        class="w-full mb-8 rounded-lg"
-        :src="story?.content.media?.filename"
-        :alt="story?.content.media?.alt"
+        class="w-full mb-8 rounded-lg object-cover"
+        :src="story?.content?.media?.filename"
+        :alt="story?.content?.media?.alt"
         sizes="sm:100vw md:75vw lg:600px"
         aspect-ratio="16/9"
         provider="storyblok"
         format="webp"
       />
       <h1 class="text-4xl font-bold">
-        {{ story.content.title }}
+        {{ story.content.title }} <AsBadge :icon="story?.content.category.content.icon" :label="story?.content.category.content.name" />
       </h1>
       <p class="text-xs font-mono font-semibold text-gray-400">
-        {{ storyPublishedDate }}
+        {{ story.published_at }}
       </p>
     </header>
-    <div class="prose mx-auto overflow-hidden">
+    <div class="prose mx-auto overflow-hidden pb-40">
       <SbRichText
         v-if="story.content.content"
         :doc="story.content.content"

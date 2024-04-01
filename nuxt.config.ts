@@ -24,6 +24,7 @@ export default defineNuxtConfig({
       storyblokVersion: process.env.STORYBLOK_VERSION || 'published',
     },
   },
+  /*  ssr: false, */
   build: {
     /*     transpile: ['@alvarosabu/storyblok-richtext-vue-renderer'], */
   },
@@ -36,7 +37,7 @@ export default defineNuxtConfig({
     ],
     '@unocss/nuxt',
     '@tresjs/nuxt',
-    'nuxt-icon', 
+    'nuxt-icon',
     '@pinia/nuxt',
     '@nuxt/image',
     '@nuxt/devtools',
