@@ -117,10 +117,8 @@ const publishedProjects = computed(() =>
           />
           <AsBadge
             v-if="project.content.category"
-            absolute
-            right-4
-            -bottom-5
-            class="important-p-2 important-rounded-full bg-white dark:bg-primary-600 text-gray important-text-xl important-border-1 important-border-gray-200 dark:important-border-primary-400"
+
+            class="absolute right-4 -bottom-5 important-p-2 important-rounded-full bg-white dark:bg-primary-600 text-gray important-text-xl important-border-1 important-border-gray-200 dark:important-border-primary-400"
             :icon="project.content.category.content.icon"
             :title="project.content.category.content.name"
           />
