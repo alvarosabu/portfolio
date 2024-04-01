@@ -49,7 +49,7 @@ useSeoMeta({
   keywords: story?.value.tag_list?.join(', '),
   description: story?.value.content.excerpt,
   ogDescription: story?.value.content.excerpt,
-  ogUrl: `https://alvarosaburido.dev/portfolio/${route.params.slug}`,
+  ogUrl: `https://alvarosaburido.dev/projects/${route.params.slug}`,
   ogType: 'article',
   ogSiteName: 'AlvaroSabu',
   ogTitle: `${story?.value.content?.title} - AlvaroSabu`,
@@ -78,7 +78,7 @@ useSeoMeta({
     />
     <header class="prose mx-auto border-b pb-8">
       <p class="my-12 lg:my-24">
-        <NuxtLink to="/portfolio">
+        <NuxtLink to="/projects">
           <i class="i-carbon-chevron-left"></i> Back to portfolio
         </NuxtLink>
       </p>

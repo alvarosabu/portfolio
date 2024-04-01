@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Html } from '@tresjs/cientos'
 
+const router = useRouter()
 const cards = ref([{
   title: 'Talks',
   slug: 'talks',
@@ -10,14 +11,14 @@ const cards = ref([{
 }, {
   title: 'Blog',
   slug: 'blog',
-  // eslint-disable-next-line max-len
+
   media: 'https://a.storyblok.com/f/114518/2560x1440/8a3a5489b4/article-build-3d-scenes-declaratively-with-tresjs-using-vue.png',
   rotation: [0, 0, 0],
   position: [5, 0, -2],
 }, {
   title: 'Projects',
   slug: 'projects',
-  // eslint-disable-next-line max-len
+
   media: 'https://a.storyblok.com/f/114518/1920x1080/b573439c87/wizardly-potions-classroom.png/m/1200x0/filters:format(webp)',
   rotation: [0, -Math.PI / 6, 0],
   position: [10, 0, -1],
@@ -86,7 +87,7 @@ onBeforeUnmount(() => {
 <template>
   <TresGroup
     ref="cardSectionRef"
-    :position="[1, 4.5, -3]"
+    :position="[1, 4.5, -8]"
     :rotation="[0, -Math.PI / 6, 0]"
   >
     <TresMesh
@@ -103,13 +104,14 @@ onBeforeUnmount(() => {
       >
         <div
           class="
-          bg-white 
-          p-2 rounded 
-          shadow-lg 
+          bg-white
+          p-2 rounded
+          shadow-lg
           h-175px w-150px
           cursor-pointer
-          scale-100 hover:scale-110
+          scale-120 hover:scale-130
           transition-all duration-300"
+          @click="navigateTo(card.slug)"
         >
           <NuxtImg
             v-if="card.media"

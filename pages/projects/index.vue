@@ -125,7 +125,7 @@ const publishedProjects = computed(() =>
         </header>
         <div class="px-4 prose pb-4">
           <h2 class="text-xl font-bold hover:text-secondary transition-all ease-in">
-            <NuxtLink :to="`portfolio/${project.slug}`">
+            <NuxtLink :to="`projects/${project.slug}`">
               {{ project.content.title }}
             </NuxtLink>
           </h2>

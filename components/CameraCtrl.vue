@@ -12,14 +12,14 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 
 // Camera position
 const cameraRef = ref()
-/* breakpoints.greaterOrEqual('md').value 
+/* breakpoints.greaterOrEqual('md').value
     ? new Vector3(2, 0, 10) : new Vector3(2, 4, 20), */
 
 const positions = [
   new Vector3(40, 0, 80),
   new Vector3(2, 0, 10),
   new Vector3(2, 3, 13),
-  new Vector3(-1.4, 2.9, 10),
+  new Vector3(-1.4, 2.9, 12),
 ]
 
 const look = ref(new Vector3(2, 2, 0))
@@ -101,11 +101,10 @@ watch(currentSection, (value) => {
         },
       })
       break
-  
+
     default:
       break
   }
-
 })
 </script>
 
