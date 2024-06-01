@@ -1,6 +1,7 @@
 {
   "name": "@alvarosabu/portfolio",
   "type": "module",
+  "packageManager": "pnpm@9.1.4",
   "version": "3.0.0",
   "private": true,
   "scripts": {
