@@ -14,7 +14,7 @@ watch(planetRef, (value) => {
 })
 
 watch(hasFinishLoadingModels, (value) => {
-  if (value) {
+  if (value && planetRef.value) {
     gsap.to(planetRef.value.scale, {
       duration: 1, // Duration of the animation in seconds
       x: 1,

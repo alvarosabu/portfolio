@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { navOrientation, navOrigin } from './consts'
-import type { MenuItem } from './consts'
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   orientation?: string
   parent?: string
 }>(), {
@@ -16,7 +15,6 @@ const menuItems = [
   { label: 'Projects', path: 'portfolio' },
 ]
 
-console.log('props', props.orientation)
 </script>
 
 <template>
@@ -31,20 +29,20 @@ console.log('props', props.orientation)
       <li
         v-for="link in menuItems"
         :key="link.label"
-        font-bold
-        mr-4
-        important-w-full
-        text="primary-400 hover:bg-md dark:gray-50"
+        class="font-bold mr-4 important-w-full"
       >
-        <nuxt-link
+        <NuxtLink
           no-rel
+          class="text-primary-400 dark:text-gray-50"
           :class="{
-            'p-4 !w-full inline-flex': orientation === navOrientation.VERTICAL,
+            'p-8 !w-full inline-flex  ': orientation === navOrientation.VERTICAL,
+            'hover:text-bg-md px-1 ' : orientation === navOrientation.HORIZONTAL,
           }"
+          :exact-active-class="orientation === navOrientation.HORIZONTAL ? 'text-bg-md' : ''"
           :to="`/${link.path}`"
         >
           {{ link.label }}
-        </nuxt-link>
+        </NuxtLink>
       </li>
     </ul>
   </nav>

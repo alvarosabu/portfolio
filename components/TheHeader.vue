@@ -2,7 +2,10 @@
 import { ref } from 'vue'
 
 const { isMobile } = useBreakpoints()
-
+const store = useHomeStore()
+const { 
+  hasFinishLoadingModels,
+} = storeToRefs(store)
 const navMenu = [
   { label: 'Home', path: '' },
   { label: 'Blog', path: 'blog' },
@@ -17,8 +20,9 @@ function toggleMenu() {
 
 const route = useRoute()
 
-watch(route, () => {
+watch(() => route.fullPath, () => {
   showMenu.value = false
+  hasFinishLoadingModels.value = false
 })
 </script>
 
@@ -40,12 +44,10 @@ watch(route, () => {
   </Transition>
   <div ref="navMenu">
     <header
-      w-full
-      fixed
-      top-0
-      z-60
-      bg="white dark:primary opacity-60 dark:opacity-60"
-      text="dark:gray-200"
+      class="w-full fixed top-0 z-60 bg-white dark:bg-primary  dark:text-gray-200"
+      :class="{
+        'bg-opacity-60 dark:bg-opacity-60': !showMenu,
+      }"
       role="banner"
     >
       <div
