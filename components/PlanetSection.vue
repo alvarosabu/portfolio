@@ -7,20 +7,28 @@ const {
 
 const planetRef = ref()
 
+const { invalidate } = useTres()
+
 watch(planetRef, (value) => {
   if (value) {
     planetRef.value.scale.set(0, 0, 0)
+    invalidate()
   }
 })
+
 
 watch(hasFinishLoadingModels, (value) => {
   if (value && planetRef.value) {
     gsap.to(planetRef.value.scale, {
+      delay: 0.75,
       duration: 1, // Duration of the animation in seconds
       x: 1,
       y: 1,
       z: 1,
       ease: 'elastic.out', // Easing function for smoother animation
+      onUpdate: () => {
+        invalidate()
+      },
     })
   }
 })

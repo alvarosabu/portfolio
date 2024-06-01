@@ -8,8 +8,8 @@ const {
   hasFinishLoadingModels,
   currentSection,
 } = storeToRefs(store)
-const breakpoints = useBreakpoints(breakpointsTailwind)
 
+const { invalidate } = useTres()
 // Camera position
 const cameraRef = ref()
 /* breakpoints.greaterOrEqual('md').value 
@@ -39,12 +39,13 @@ watch(cameraRef, () => {
 
 function toInitialCameraAnimation() {
   gsap.to(cameraRef.value.position, {
-    delay: 1,
+    delay: 1.5,
     duration: 1.2, // Duration of the animation in seconds
     ...positions[1],
     ease: 'power3.out', // Easing function for smoother animation
     onUpdate: () => {
       cameraRef.value.lookAt(2, 2, 0)
+      invalidate()
     },
     onComplete: () => {
       cameraInitialAnimationEnd.value = true

@@ -52,11 +52,18 @@ watch(hasFinishLoading, (value) => {
 
 <template>
     <TheLoader
+    v-if="hasFinishLoadingModels"
     :progress="progress"
     :has-finish-loading="hasFinishLoading"
   />
   <main class="min-h-100vh pt-96px as-container">
-    <TresCanvas window-size alpha shadows :tone-mapping="NoToneMapping">
+    <TresCanvas
+      window-size
+      alpha
+      shadows
+      :tone-mapping="NoToneMapping"
+      render-mode="on-demand"
+    >
       <UnderConstruction />
     </TresCanvas>
   </main>
