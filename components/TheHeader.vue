@@ -3,7 +3,11 @@ import { ref } from 'vue'
 
 const { isMobile } = useBreakpoints()
 
-const navMenu = ref(null)
+const navMenu = [
+  { label: 'Home', path: '' },
+  { label: 'Blog', path: 'blog' },
+  { label: 'Projects', path: 'portfolio' },
+]
 // Feature Menu visibiliy
 const showMenu = ref(false)
 
@@ -32,7 +36,7 @@ watch(route, () => {
       inset-0
       bg="black opacity-50"
       @click="showMenu = false"
-    />
+    ></div>
   </Transition>
   <div ref="navMenu">
     <header
@@ -61,11 +65,10 @@ watch(route, () => {
             mr-8
             data-cy="dark-switch"
           />
-          <!-- <TheNav
-            hidden
-            md:block
-            :menu="storiesForNav"
-          /> -->
+          <TheNav
+            key="mobile-nav-menu"
+            class="hidden md:block"
+          />
           <AsButton
             block
             md:hidden
@@ -76,31 +79,35 @@ watch(route, () => {
             h-14
             text="md dark:gray-50"
             cursor-pointer
-            :icon="showMenu ? 'close' : 'menu'" 
-            :flat="true" 
-            :aria-label="showMenu ? 'Close menu' : 'Open menu'" 
+            :icon="showMenu ? 'close' : 'menu'"
+            :flat="true"
+            :aria-label="showMenu ? 'Close menu' : 'Open menu'"
             @click="toggleMenu"
           />
         </div>
       </div>
     </header>
-    <!-- <Transition
+    <Transition
       name="fade"
       enter-active-class="animate-slide-in-down animate-duration-200 animate-count-1"
       leave-active-class="animate-slide-out-up animate-duration-200 animate-count-1"
     >
       <TheNav
-        v-show="showMenu && isMobile"
-        w-full
+        v-show="showMenu"
+        key="mobile-nav-menu"
+        class="w-full
         fixed
         top-13
         bg-white
         dark:bg-primary-500
-        z-50
-        :menu="storiesForNav"
+        z-50"
         orientation="vertical"
-      /> 
-    </Transition> -->
+      />
+    </Transition>
+    <!--    <TheNav
+      :menu-items="navMenu"
+      orientation="vertical"
+    /> -->
   </div>
 </template>
 
