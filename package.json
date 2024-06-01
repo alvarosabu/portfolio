@@ -27,6 +27,8 @@
     "@unocss/nuxt": "^0.60.4",
     "date-fns": "^3.6.0",
     "gsap": "^3.12.5",
+    "markdown-it": "^14.1.0",
+    "nuxt-lazy-hydrate": "^1.0.0",
     "pinia": "^2.1.7",
     "three": "^0.165.0"
   },
