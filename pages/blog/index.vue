@@ -26,11 +26,11 @@ useSeoMeta({
   ogType: 'website',
   ogSiteName: 'AlvaroSabu',
   ogTitle: 'Blog - AlvaroSabu',
-  ogImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1671031889/portfolio/og/og-blog_bnhvts.png',
+  ogImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1717241599/portfolio/og/v3/Open_Graph_-_Blog_oet7tv.png',
   ogImageAlt: 'Blog - AlvaroSabu',
   twitterDescription: 'A collection of articles about web development, design, 3D, and other topics.',
   twitterTitle: 'Blog - AlvaroSabu',
-  twitterImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1671031889/portfolio/og/og-blog_bnhvts.png',
+  twitterImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1717241599/portfolio/og/v3/Open_Graph_-_Blog_oet7tv.png',
   twitterImageAlt: 'Blog - AlvaroSabu',
   twitterCard: 'summary_large_image',
 })
@@ -91,13 +91,13 @@ const formattedArticles = computed(() =>
     </header>
     <section
       v-if="formattedArticles.length > 0"
-      class="relative z-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24"
+      class="relative z-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-24 pb-24"
     >
       <article
         v-for="(article, index) in formattedArticles"
         :key="article.uuid"
         :data-index="index"
-        class="bg-white dark:bg-primary rounded-lg shadow-lg"
+        class="bg-white dark:bg-primary-600 rounded-lg shadow-lg"
       >
         <NuxtImg
           v-if="article.content.media"

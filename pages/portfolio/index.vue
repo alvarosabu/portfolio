@@ -26,11 +26,11 @@ useSeoMeta({
   ogType: 'website',
   ogSiteName: 'AlvaroSabu',
   ogTitle: 'Portfolio - AlvaroSabu',
-  ogImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1671031889/portfolio/og/og-blog_bnhvts.png',
+  ogImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1717241599/portfolio/og/v3/Open_Graph_-_Portfolio_dd3jon.png',
   ogImageAlt: 'Portfolio - AlvaroSabu',
   twitterDescription: 'A collection of projects I have worked on that can be shared.',
   twitterTitle: 'Portfolio - AlvaroSabu',
-  twitterImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1671031889/portfolio/og/og-blog_bnhvts.png',
+  twitterImage: 'https://res.cloudinary.com/alvarosaburido/image/upload/v1717241599/portfolio/og/v3/Open_Graph_-_Portfolio_dd3jon.png',
   twitterImageAlt: 'Portfolio - AlvaroSabu',
   twitterCard: 'summary_large_image',
 })
@@ -96,7 +96,7 @@ const publishedProjects = computed(() =>
     </header>
     <section
       v-if="publishedProjects.length > 0"
-      class="relative z-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24"
+      class="relative z-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-24 pb-24"
     >
       <article
         v-for="(project, index) in publishedProjects"
