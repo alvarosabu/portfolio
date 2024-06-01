@@ -7,6 +7,16 @@ const { nodes, scene } = await useGLTF(
   { draco: true },
 )
 
+const { scene: underConstructionSign } = await useGLTF(
+  '/models/under-contruction-sign.glb',
+  { draco: true },
+)
+
+const { scene: penguin } = await useGLTF(
+  '/models/penguin-plush-constructor.glb',
+  { draco: true },
+)
+
 const { seekAllByName } = useSeek()
 
 const planet = nodes['Planet'] as TresObject3D
@@ -41,6 +51,18 @@ palmTree.material = new MeshPhongMaterial({
     <primitive
       ref="palmTreeRef"
       :object="palmTree"
+    />
+    <primitive
+    :position="[-0.3, 0, 0.5]"
+    :rotation="[0, 0, 0]"
+      name="sign"
+      ref="signRef"
+      :object="underConstructionSign" 
+    />
+    <primitive
+      name="penguin"
+      ref="penguinRef" 
+      :object="penguin" 
     />
     <primitive
       v-for="cloud in clouds"
