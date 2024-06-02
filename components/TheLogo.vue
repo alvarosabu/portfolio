@@ -39,12 +39,8 @@ const lastName = ref('Sabu')
     >{{ `<${name}` }}</span>
     <span
       text-secondary-400
-      hidden
-      sm:inline-block
     >{{ lastName }}</span>
     <span
-      hidden
-      sm:inline-block
     >{{ '/>' }}</span>
     <span hidden> Go to home page</span>
   </NuxtLink>
