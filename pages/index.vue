@@ -62,7 +62,6 @@ watch(hasFinishLoading, (value) => {
       alpha
       shadows
       :tone-mapping="NoToneMapping"
-      render-mode="on-demand"
     >
       <UnderConstruction />
     </TresCanvas>

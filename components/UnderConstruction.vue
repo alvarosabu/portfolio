@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
 </script>
 <template>
   <CameraCtrl />
